@@ -13,7 +13,14 @@ const router = new express.Router();
 /** Homepage: show list of customers. */
 
 router.get("/", async function (req, res, next) {
-  const customers = await Customer.all();
+  let customers;
+
+  if (req.query.search){
+    customers = await Customer.getByName(req.query.search);
+  } else {
+    customers = await Customer.all();
+  }
+
   return res.render("customer_list.html", { customers });
 });
 
@@ -70,14 +77,6 @@ router.post("/:id/edit/", async function (req, res, next) {
   return res.redirect(`/${customer.id}/`);
 });
 
-//TODO: Show form to add a reservation.
-
-router.get("/:id/add-reservation/", async function (req, res, next) {
-  const customer = await Customer.get(req.params.id);
-
-  res.render("reservation_edit_form.html", { customer });
-});
-
 /** Handle adding a new reservation. */
 
 router.post("/:id/add-reservation/", async function (req, res, next) {
@@ -107,9 +106,6 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
 
   return res.redirect(`/${customerId}/`);
 });
-
-//TODO: Show form to edit a reservation
-//TODO: Handle editing a reservation
 
 
 module.exports = router;
