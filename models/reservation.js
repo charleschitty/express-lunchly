@@ -44,13 +44,22 @@ class Reservation {
   async save(){
     if(this.id === undefined){
       const result = await db.query(
-        `INSERT INTO reservations (customerId, numGuests, startAt, notes)
+        `INSERT INTO reservations (customer_id, num_guests, start_at, notes)
                 VALUES ($1,$2,$3,$4)
                 RETURNING id`,
                 [this.customerId, this.numGuests, this.startAt, this.notes]);
       this.id = result.rows[0].id;
+    } else {
+      const results = await db.query(
+        `UPDATE reservations
+          SET customer_id = $1,
+              num_guests = $2,
+              start_at = $3,
+              notes = $4
+          WHERE id = $5`,
+        [this.customerId, this.numGuests, this.startAt, this.notes, this.id]
+      );
     }
-    //TODO: update for else has id
   }
 }
 
