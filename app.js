@@ -33,3 +33,11 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+//FIXME:
+//Questions:
+//1:   if (customer === undefined) {
+  // const err = new Error(`No such customer: ${id}`);
+  // err.status = 404;
+  // throw err;
+//2: Auto-generated IDs why

@@ -70,6 +70,8 @@ router.post("/:id/edit/", async function (req, res, next) {
   return res.redirect(`/${customer.id}/`);
 });
 
+//TODO: Show form to add a reservation.
+
 /** Handle adding a new reservation. */
 
 router.post("/:id/add-reservation/", async function (req, res, next) {
@@ -91,5 +93,9 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
 
   return res.redirect(`/${customerId}/`);
 });
+
+//TODO: Show form to edit a reservation
+//TODO: Handle editing a reservation
+
 
 module.exports = router;
