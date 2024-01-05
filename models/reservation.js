@@ -50,7 +50,8 @@ class Reservation {
                 [this.customerId, this.numGuests, this.startAt, this.notes]);
       this.id = result.rows[0].id;
     } else {
-      const results = await db.query(
+      // try{
+      const result = await db.query(
         `UPDATE reservations
           SET customer_id = $1,
               num_guests = $2,
@@ -59,6 +60,12 @@ class Reservation {
           WHERE id = $5`,
         [this.customerId, this.numGuests, this.startAt, this.notes, this.id]
       );
+      // }catch(err){
+
+      //   const err2 = new Error(`Invalid type for num guests}`);
+      //   err2.status = 404;
+      //   throw err2;
+      // }
     }
   }
 }

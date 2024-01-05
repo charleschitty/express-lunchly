@@ -4,7 +4,7 @@
 
 const express = require("express");
 
-const { BadRequestError } = require("./expressError");
+const { BadRequestError, NotFoundError } = require("./expressError");
 const Customer = require("./models/customer");
 const Reservation = require("./models/reservation");
 
@@ -89,21 +89,23 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
   const numGuests = req.body.numGuests;
   const notes = req.body.notes;
 
-
-  if (Customer.get(customerId)){
-    const reservation = new Reservation({
-      customerId,
-      startAt,
-      numGuests,
-      notes,
-    });
-
-    await reservation.save();
-
-    return res.redirect(`/${customerId}/`);
-  } else {
-    return res.render("error.html", { error })
+  //TODO: is this the best place to handle passing a id of a customer that doesn't exist?
+  try{
+    await Customer.get(customerId);
+  }catch(err){
+    throw new NotFoundError("Reservation cannot be added since no customer exists");
   }
+
+  const reservation = new Reservation({
+    customerId,
+    startAt,
+    numGuests,
+    notes,
+  });
+
+  await reservation.save();
+
+  return res.redirect(`/${customerId}/`);
 });
 
 //TODO: Show form to edit a reservation
