@@ -68,7 +68,30 @@ class Reservation {
       // }
     }
   }
-}
 
+  //Ways to do this: 2 separate queries (Reservations to find customer ids we want)
+  // Then query customer to find full info about said customer ids
+  //ERIC - 1 ERIC - 2 ERIC - 3 CHARLES - 4 --> ERIC - 3 Charles - 1
+  async getTopTen(){
+    const results = await db.query(
+      `SELECT customer_id, COUNT(id) as total",
+       FROM reservations
+       GROUPBY(customer_id)
+       ORDER BY(total) DESC
+       LIMIT(10)
+       RETURNING customer_id`,
+    );
+
+    const customer_ids = results.rows
+
+  // return results.rows.map(row => new Reservation(row));
+
+  // const results = await  db.query( group reservations by customer_id and then
+  // grab the customer id with the most reservations); return us customer ids
+  // ERIC's customer ID
+
+  //Customer.get(ERIC"S customer ID) --> customer class --> customer list
+  }
+}
 
 module.exports = Reservation;

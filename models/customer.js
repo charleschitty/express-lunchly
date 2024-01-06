@@ -59,17 +59,6 @@ class Customer {
   /** get a customer by name. */
   static async getByName(name) {
     const results = await db.query(
-        //   `SELECT id,
-        //           first_name AS "firstName",
-        //           last_name  AS "lastName",
-        //           phone,
-        //           notes
-        //    FROM customers
-        //    WHERE first_name ILIKE $1
-        //           OR
-        //           last_name ILIKE $1 `,
-        // [name + '%'],
-
         `SELECT id,
                   first_name AS "firstName",
                   last_name  AS "lastName",
@@ -78,7 +67,7 @@ class Customer {
            FROM customers
            WHERE (first_name || ' ' || last_name) ILIKE $1
            ORDER BY first_name, last_name`,
-        ['%'+ name + '%'],
+        ['%' + name + '%'],
     );
 
     const customer = results.rows[0];
