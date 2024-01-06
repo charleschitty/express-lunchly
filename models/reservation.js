@@ -74,15 +74,14 @@ class Reservation {
   //ERIC - 1 ERIC - 2 ERIC - 3 CHARLES - 4 --> ERIC - 3 Charles - 1
   async getTopTen(){
     const results = await db.query(
-      `SELECT customer_id, COUNT(id) as total",
+      `SELECT customer_id
        FROM reservations
-       GROUPBY(customer_id)
-       ORDER BY(total) DESC
-       LIMIT(10)
-       RETURNING customer_id`,
+       GROUP BY(customer_id)
+       ORDER BY COUNT(id) DESC
+       LIMIT(10)`,
     );
 
-    const customer_ids = results.rows
+    const customer_ids = results.rows //[43,52]
 
   // return results.rows.map(row => new Reservation(row));
 

@@ -111,7 +111,7 @@ router.get("/top-ten/", async function (req, res) {
   const customers = await Customer.getTopTen();
 
   return res.render("customer_list.html", { customers })
-})
+});
 
 
 module.exports = router;

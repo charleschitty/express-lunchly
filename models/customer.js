@@ -81,6 +81,37 @@ class Customer {
     return results.rows.map(c => new Customer(c));
   }
 
+  /**returns a list of the top 10 customers with the most reservations */
+  static async getTopTen(){
+    const results = await db.query(
+      // `SELECT customer_id
+      //  FROM reservations
+      //  GROUP BY(customer_id)
+      //  ORDER BY COUNT(id) DESC
+      //  LIMIT(10)`,
+
+      `SELECT c.id,
+              c.first_name AS "firstName",
+              c.last_name  AS "lastName",
+              c.phone,
+              c.notes
+          FROM customers as c
+          JOIN reservations ON c.id = reservations.customer_id
+          GROUP BY(c.id)
+          ORDER BY COUNT(c.id) DESC
+          LIMIT(10)`
+    );
+    return results.rows.map(c => new Customer(c))
+
+  // return results.rows.map(row => new Reservation(row));
+
+  // const results = await  db.query( group reservations by customer_id and then
+  // grab the customer id with the most reservations); return us customer ids
+  // ERIC's customer ID
+
+  //Customer.get(ERIC"S customer ID) --> customer class --> customer list
+  }
+
 
   /** get all reservations for this customer. */
 
@@ -121,6 +152,8 @@ class Customer {
   fullName(){
     return `${this.firstName} ${this.lastName}`;
   }
+
+
 }
 
 module.exports = Customer;
