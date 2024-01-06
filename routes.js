@@ -43,6 +43,12 @@ router.post("/add/", async function (req, res, next) {
   return res.redirect(`/${customer.id}/`);
 });
 
+router.get("/top-ten/", async function (req, res) {
+  const customers = await Customer.getTopTen();
+
+  return res.render("customer_list.html", { customers })
+});
+
 /** Show a customer, given their ID. */
 
 router.get("/:id/", async function (req, res, next) {
@@ -105,12 +111,6 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
   await reservation.save();
 
   return res.redirect(`/${customerId}/`);
-});
-
-router.get("/top-ten/", async function (req, res) {
-  const customers = await Customer.getTopTen();
-
-  return res.render("customer_list.html", { customers })
 });
 
 

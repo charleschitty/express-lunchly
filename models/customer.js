@@ -69,14 +69,14 @@ class Customer {
            ORDER BY first_name, last_name`,
         ['%' + name + '%'],
     );
+      //TODO: change error message by changing template to be more specific to no customer
+    // const customer = results.rows[0];
 
-    const customer = results.rows[0];
-
-    if (customer === undefined) {
-      const err = new Error(`No such customer: ${name}`);
-      err.status = 404;
-      throw err;
-    }
+    // if (customer === undefined) {
+    //   const err = new Error(`No such customer: ${name}`);
+    //   err.status = 404;
+    //   throw err;
+    // }
 
     return results.rows.map(c => new Customer(c));
   }

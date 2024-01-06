@@ -51,6 +51,7 @@ class Reservation {
       this.id = results.rows[0].id;
     } else {
       // try{
+      //TODO: do not need to update the customer_id
       const results = await db.query(
         `UPDATE reservations
           SET customer_id = $1,
